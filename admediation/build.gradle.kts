@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 android {
@@ -24,4 +25,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.ktorCore)
+    implementation(libs.ktorCio)
+    implementation(libs.ktorNegotiation)
+    implementation(libs.ktorKotlinxSerialization)
+    implementation(libs.koin)
 }
