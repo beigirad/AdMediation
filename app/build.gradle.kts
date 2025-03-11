@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "ir.beigirad.admediation.example"
-        minSdk = 19
+        minSdk = 21
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -33,8 +33,12 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
     implementation(project(":admediation"))
+    implementation(libs.appcompat)
 }

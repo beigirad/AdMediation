@@ -13,6 +13,7 @@ object AdMediation {
 
     private val apiService by koinApp.inject<ApiService>()
 
+    @JvmStatic
     fun initialize() {
         runBlocking {
             Log.i("AdMediation", apiService.getAdNetworks().toString())
