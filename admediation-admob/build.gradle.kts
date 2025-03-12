@@ -25,6 +25,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":admediation"))
+    implementation(project(":admediation-core"))
     implementation(libs.googleAd)
 }

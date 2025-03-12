@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":admediation"))
+    implementation(project(":admediation-core"))
     implementation(project(":admediation-admob"))
     implementation(libs.appcompat)
 }
