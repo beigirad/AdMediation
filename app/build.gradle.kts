@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "ir.beigirad.admediation.example"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -40,5 +40,6 @@ android {
 
 dependencies {
     implementation(project(":admediation"))
+    implementation(project(":admediation-admob"))
     implementation(libs.appcompat)
 }

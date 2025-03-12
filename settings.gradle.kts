@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "AdMediationSdk"
 include(":app")
 include(":admediation")
+include(":admediation-admob")

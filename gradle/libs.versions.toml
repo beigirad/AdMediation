@@ -10,6 +10,7 @@ ktorNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.
 ktorKotlinxSerialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 koin = "io.insert-koin:koin-core-jvm:4.0.2"
 appcompat = "androidx.appcompat:appcompat:1.7.0"
+googleAd = "com.google.android.gms:play-services-ads:24.0.0"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

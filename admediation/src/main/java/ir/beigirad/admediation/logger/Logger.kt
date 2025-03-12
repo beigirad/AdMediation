@@ -19,7 +19,7 @@ internal class DefaultLogger : ILogger {
     }
 }
 
-internal object Logger {
+object Logger {
     @Volatile
     private var loggers = listOf<ILogger>(DefaultLogger())
     fun addPrinter(iLogger: ILogger) {

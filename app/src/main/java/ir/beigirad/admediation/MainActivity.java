@@ -29,6 +29,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.btnInitializer.setOnClickListener(v -> AdMediation.initialize());
+        binding.btnInitializer.setOnClickListener(v -> AdMediation.initialize(this));
     }
 }
