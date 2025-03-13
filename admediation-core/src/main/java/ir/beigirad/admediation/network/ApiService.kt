@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.URLBuilder
+import io.ktor.http.Url
 import io.ktor.http.appendPathSegments
 import ir.beigirad.admediation.model.AdNetwork
 import ir.beigirad.admediation.model.AdNetworksResponse
@@ -16,14 +17,14 @@ interface ApiService {
 
 class ApiServiceImpl(
     private val engine: HttpClient,
-    private val urlBuilder: URLBuilder,
+    private val baseUrl: Url,
 ) : ApiService {
 
     override suspend fun getAdNetworks(): Either<List<AdNetwork>> =
         // todo: handle failed status
         Either.Success(
             engine
-                .get(urlBuilder.appendPathSegments("mock/api/mediator/adnets").build())
+                .get(URLBuilder(baseUrl).appendPathSegments("mock/api/mediator/adnets").build())
                 .body<AdNetworksResponse>().adNetworks
         )
 }

@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLBuilder
+import io.ktor.http.Url
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +15,7 @@ import org.koin.dsl.module
 val networkModule = module {
     single { Json { ignoreUnknownKeys = true } }
 
-    single { URLBuilder("https://mock.tapsell.ir/") }
+    single<Url> { URLBuilder("https://mock.tapsell.ir/").build() }
 
     single<HttpClient> {
         HttpClient(
