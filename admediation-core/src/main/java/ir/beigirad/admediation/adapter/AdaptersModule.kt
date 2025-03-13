@@ -17,6 +17,4 @@ val wrappersModule = module {
             get<TapsellAdapterFactory>(),
         )
     }
-
-    singleOf(::AdMediationAdapterIterator)
 }
