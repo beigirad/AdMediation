@@ -26,7 +26,8 @@ android {
 
 dependencies {
     implementation(libs.ktorCore)
-    implementation(libs.ktorCio)
+    implementation(libs.ktorOkhttp)
+    implementation(libs.ktorOkhttpLogger)
     implementation(libs.ktorNegotiation)
     implementation(libs.ktorKotlinxSerialization)
     implementation(libs.koin)
