@@ -11,7 +11,6 @@ class AdmobAdapter : AdMediationAdapter {
     override suspend fun initialize(context: Context) {
         withContext(Dispatchers.Default) {
             MobileAds.initialize(context) {
-                Logger.d("${it.adapterStatusMap}")
             }
         }
     }

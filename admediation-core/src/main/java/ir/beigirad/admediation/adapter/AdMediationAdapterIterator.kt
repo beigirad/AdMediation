@@ -5,14 +5,15 @@ import ir.beigirad.admediation.logger.Logger
 import ir.beigirad.admediation.model.AdNetwork
 
 class AdMediationAdapterIterator(
-    private val adapters: Map<AdMediationAdapterIdentifier, AdMediationAdapter>,
+    private val adaptersFactory: Set<AdMediationAdapter.Factory>,
 ) {
     suspend fun initializeAdapters(context: Context, adNetworks: List<AdNetwork>) {
         adNetworks.forEach { adNetwork ->
-            val foundAdapterIdentifier =
-                adapters.keys.find { it.name.equals(adNetwork.name, ignoreCase = true) }
-            adapters[foundAdapterIdentifier]?.initialize(context)?.also {
-                Logger.i("\"${foundAdapterIdentifier?.name}\" adapter initialized")
+            adaptersFactory.forEach { factory ->
+                if (adNetwork.name.equals(factory.slug, ignoreCase = true))
+                    factory.create()?.initialize(context)?.also {
+                        Logger.i("\"${factory.slug}\" adapter initialized")
+                    }
             }
         }
     }
