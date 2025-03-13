@@ -1,5 +1,6 @@
-package ir.beigirad.admediation.adapter
+package ir.beigirad.admediation.adapter.factories
 
+import ir.beigirad.admediation.adapter.AdMediationAdapter
 import ir.beigirad.admediation.logger.Logger
 import ir.beigirad.admediation.model.AdNetwork
 
