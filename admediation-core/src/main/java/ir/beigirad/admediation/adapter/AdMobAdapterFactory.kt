@@ -1,11 +1,12 @@
 package ir.beigirad.admediation.adapter
 
 import ir.beigirad.admediation.logger.Logger
+import ir.beigirad.admediation.model.AdNetwork
 
 class AdMobAdapterFactory : AdMediationAdapter.Factory {
     override val slug: String = "admob"
 
-    override fun create(): AdMediationAdapter? =
+    override fun create(adNetwork: AdNetwork): AdMediationAdapter? =
         runCatching {
             // TODO avoid using reflection in future
             val clazz = Class.forName("ir.beigirad.admediation.admob.AdmobAdapter")

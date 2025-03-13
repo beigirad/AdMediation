@@ -23,3 +23,4 @@ rootProject.name = "AdMediationSdk"
 include(":example-admob")
 include(":admediation-core")
 include(":admediation-admob")
+include(":admediation-tapsell")

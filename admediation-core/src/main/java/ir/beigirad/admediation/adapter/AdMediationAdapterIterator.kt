@@ -11,7 +11,7 @@ class AdMediationAdapterIterator(
         adNetworks.forEach { adNetwork ->
             adaptersFactory.forEach { factory ->
                 if (adNetwork.name.equals(factory.slug, ignoreCase = true))
-                    factory.create()?.initialize(context)?.also {
+                    factory.create(adNetwork)?.initialize(context)?.also {
                         Logger.i("\"${factory.slug}\" adapter initialized")
                     }
             }
