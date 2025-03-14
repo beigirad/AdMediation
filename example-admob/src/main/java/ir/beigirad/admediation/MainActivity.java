@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
             public void onRequestAdClick() {
                 AdMediation.requestAd(MainActivity.this);
             }
+
+            @Override
+            public void onShowAdClick() {
+                AdMediation.showAd(MainActivity.this);
+            }
         };
         setContentView(binder.getRootView());
 

@@ -12,13 +12,14 @@ class AdPool {
         Logger.i("an ad has cached. $ad")
     }
 
-    fun getAnAd(): Ad? {
+    fun popAd(): Ad? {
         val candid = cache.firstOrNull() ?: return null
         if (candid.expireTime < System.currentTimeMillis()) {
             cache.remove(candid)
-            return getAnAd()
+            return popAd()
         }
 
+        cache.remove(candid)
         return candid.ad
     }
 

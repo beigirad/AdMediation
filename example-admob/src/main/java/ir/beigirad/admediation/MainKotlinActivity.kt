@@ -25,6 +25,12 @@ class MainKotlinActivity : AppCompatActivity() {
                     AdMediation.requestAd(this@MainKotlinActivity)
                 }
             }
+
+            override fun onShowAdClick() {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    AdMediation.showAd(this@MainKotlinActivity)
+                }
+            }
         }
         setContentView(binder.rootView)
 

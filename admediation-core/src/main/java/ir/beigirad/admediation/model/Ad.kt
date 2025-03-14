@@ -1,3 +1,5 @@
 package ir.beigirad.admediation.model
 
-class Ad
+interface Ad {
+    val slug: String
+}

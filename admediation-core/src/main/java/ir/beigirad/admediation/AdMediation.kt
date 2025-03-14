@@ -83,13 +83,35 @@ object AdMediation {
 
                 async {
                     Logger.d("$slug requesting for new ad...")
-                    val requestAdResult = adapter.requestAd(context, drop.zoneId)
+                    val requestAdResult = adapter.requestAd(context, slug, drop.zoneId)
                     Logger.i("$slug received new ad result: $requestAdResult")
                     if (requestAdResult is Either.Success) {
                         adPool.putNewAd(requestAdResult.data)
                     }
                 }
             }.awaitAll()
+        }
+    }
+
+    @JvmStatic
+    fun showAd(context: Context) {
+        Logger.d("start showing ad")
+        val candidateAd = adPool.popAd() ?: run {
+            Logger.d("there is no prepared ad")
+            return
+        }
+
+        runBlocking {
+            val showResult = cachedAdapters[candidateAd.slug]
+                ?.showAd(context, candidateAd) ?: return@runBlocking
+
+            when (showResult) {
+                is Either.Failure ->
+                    Logger.i("showing ad by ${candidateAd.slug} has issue. ${showResult.error}")
+
+                is Either.Success ->
+                    Logger.i("an ad by ${candidateAd.slug} has shown.")
+            }
         }
     }
 }

@@ -31,12 +31,12 @@ class AdPoolTest : KoinTest {
     fun `soon expiring ad must be return when is there multiple ad`() {
         val pool = get<AdPool>()
 
-        val second = Ad()
+        val second = TestAd()
         pool.putNewAd(second, 3000)
-        val first = Ad()
+        val first = TestAd()
         pool.putNewAd(first, 1000)
 
-        val actual = pool.getAnAd()
+        val actual = pool.popAd()
         actual shouldBe first
         actual shouldNotBe second
     }
@@ -45,14 +45,16 @@ class AdPoolTest : KoinTest {
     fun `expired ads must be filtered when trying to fetch an ad`() {
         val pool = get<AdPool>()
 
-        val validAd = Ad()
+        val validAd = TestAd()
         pool.putNewAd(validAd, 200)
-        val expiredAd = Ad()
+        val expiredAd = TestAd()
         pool.putNewAd(expiredAd, -200)
 
-        val actual = pool.getAnAd()
+        val actual = pool.popAd()
         actual shouldBe validAd
         actual shouldNotBe expiredAd
-        pool.size() shouldBe 1
+        pool.size() shouldBe 0
     }
+
+    private class TestAd(override val slug: String = "test") : Ad
 }
