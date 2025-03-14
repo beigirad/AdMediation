@@ -50,7 +50,9 @@ dynamically based on configurations fetched from a server.
     - Two product flavors provided:
         - `tapsell` (Tapsell integration)
         - `tapmob`  (Tapsell integration + Admob integration)
-
+  - Download example [apks](https://github.com/beigirad/AdMediation/actions) from **Actions** tab (
+    until publishing via releases)
+  - Screenshot:
 ![screenshot](art/screenshot.png)
 
 ### Roadmap
@@ -59,18 +61,16 @@ dynamically based on configurations fetched from a server.
 - [X] Support Tapsell SDK
 - [X] Writing unit tests **(WIP)**
 - [X] Compatible with Java projects
+- [X] Compatible with Proguard
 - [ ] Apply restriction in multi-thread environments
 - [ ] Remove reflections
 - [ ] ...
 
 ### Known issues
 
-- [ ] **Runtime Exceptions:** Some runtime exceptions are causing the application to crash. These
-  need to be identified and handled gracefully.
 - [ ] **Non Google Services** devices is not considered yet. And may cause exception or have
   unexpected behavior.
 - [ ] **SDK State Tracking:** Keep track of sequence of operations that user can do, or restrict him
   from doing something multiple time.
-- [ ] **Proguard Rules:** May some unexpected errors occurs in minification.
 - [ ] **TODO**s and **FIXME**s
 - [ ] **Report new issues via [issues](https://github.com/beigirad/AdMediation/issues) section**
