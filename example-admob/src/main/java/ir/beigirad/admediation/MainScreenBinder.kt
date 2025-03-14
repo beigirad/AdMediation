@@ -17,6 +17,8 @@ abstract class MainScreenBinder(context: Context) {
             tvLog.movementMethod = ScrollingMovementMethod()
             btnInitializer.setOnClickListener { onInitializeClick() }
             btnRequester.setOnClickListener { onRequestAdClick() }
+            btnShower.setOnClickListener { onShowAdClick() }
+            btnLogCleaner.setOnClickListener { tvLog.text = "" }
         }
     val rootView: View get() = binding.root
 
@@ -42,4 +44,5 @@ abstract class MainScreenBinder(context: Context) {
 
     abstract fun onInitializeClick()
     abstract fun onRequestAdClick()
+    abstract fun onShowAdClick()
 }
