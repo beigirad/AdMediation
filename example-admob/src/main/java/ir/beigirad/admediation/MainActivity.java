@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import ir.beigirad.admediation.example.databinding.ActivityMainBinding;
 import ir.beigirad.admediation.logger.ILogger;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,22 +13,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        MainScreenBinder binder = new MainScreenBinder(this) {
+            @Override
+            public void onInitializeClick() {
+                AdMediation.initialize(MainActivity.this);
+            }
+
+            @Override
+            public void onRequestAdClick() {
+                AdMediation.requestAd(MainActivity.this);
+            }
+        };
+        setContentView(binder.getRootView());
 
         AdMediation.configure(new ILogger() {
             @Override
             public void i(@NonNull String message) {
-                binding.tvLog.append("\nI:  " + message);
+                binder.addToLog("I", message);
             }
 
             @Override
             public void d(@NonNull String message) {
-                binding.tvLog.append("\nD:  " + message);
+                binder.addToLog("D", message);
             }
         });
-
-        binding.btnInitializer.setOnClickListener(v -> AdMediation.initialize(this));
-        binding.btnRequester.setOnClickListener(v -> AdMediation.requestAd(this));
     }
 }
