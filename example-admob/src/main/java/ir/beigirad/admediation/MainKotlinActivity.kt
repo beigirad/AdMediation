@@ -32,5 +32,11 @@ class MainKotlinActivity : AppCompatActivity() {
                 AdMediation.initialize(this@MainKotlinActivity)
             }
         })
+
+        binding.btnRequester.setOnClickListener(View.OnClickListener { v: View? ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                AdMediation.requestAd(this@MainKotlinActivity)
+            }
+        })
     }
 }

@@ -64,4 +64,25 @@ object AdMediation {
             }.awaitAll()
         }
     }
+
+    @JvmStatic
+    fun requestAd(context: Context) {
+        Logger.i("request for new ad")
+        runBlocking {
+            val waterfall = apiService.getWaterfall().also { Logger.d("received waterfall: $it") }
+            if (waterfall is Either.Failure) return@runBlocking
+            waterfall as Either.Success
+            waterfall.data.mapNotNull { drop ->
+                val slug = drop.name.lowercase()
+                val adapter = cachedAdapters[slug]
+                    ?: return@mapNotNull null
+
+                async {
+                    Logger.d("$slug requesting for new ad...")
+                    val requestAdResult = adapter.requestAd(context, drop.zoneId)
+                    Logger.i("$slug received new ad result: $requestAdResult")
+                }
+            }.awaitAll()
+        }
+    }
 }

@@ -30,5 +30,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.btnInitializer.setOnClickListener(v -> AdMediation.initialize(this));
+        binding.btnRequester.setOnClickListener(v -> AdMediation.requestAd(this));
     }
 }
