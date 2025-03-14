@@ -3,7 +3,6 @@ package ir.beigirad.admediation.adapter
 import ir.beigirad.admediation.adapter.factories.AdMobAdapterFactory
 import ir.beigirad.admediation.adapter.factories.TapsellAdapterFactory
 import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val wrappersModule = module {
@@ -15,6 +14,6 @@ val wrappersModule = module {
         setOf(
             get<AdMobAdapterFactory>(),
             get<TapsellAdapterFactory>(),
-        )
+        ).filter { it.isAvailable() }.toSet()
     }
 }

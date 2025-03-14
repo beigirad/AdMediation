@@ -12,6 +12,7 @@ interface AdMediationAdapter {
 
     interface Factory {
         val slug: String
+        fun isAvailable(): Boolean
         fun create(adNetwork: AdNetwork): AdMediationAdapter?
     }
 

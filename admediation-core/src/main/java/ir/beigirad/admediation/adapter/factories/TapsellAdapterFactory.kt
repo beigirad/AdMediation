@@ -7,10 +7,15 @@ import ir.beigirad.admediation.model.AdNetwork
 class TapsellAdapterFactory : AdMediationAdapter.Factory {
     override val slug: String = "tapsell"
 
+    // TODO avoid using reflection in future
+    private val adapterClass = "ir.beigirad.admediation.tapsell.TapsellAdapter"
+
+    override fun isAvailable(): Boolean =
+        runCatching { Class.forName(adapterClass) }.isSuccess
+
     override fun create(adNetwork: AdNetwork): AdMediationAdapter? =
         runCatching {
-            // TODO avoid using reflection in future
-            val clazz = Class.forName("ir.beigirad.admediation.tapsell.TapsellAdapter")
+            val clazz = Class.forName(adapterClass)
             val constructor = clazz.getDeclaredConstructor(
                 AdMediationAdapter.Config::class.java
             )
