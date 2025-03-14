@@ -35,12 +35,28 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
+    }
+
+    flavorDimensions += listOf("network")
+    productFlavors {
+        create("tapsel") {
+            dimension = "network"
+        }
+        create("tapmob") {
+            dimension = "network"
+            applicationIdSuffix = ".tapmob"
+        }
     }
 }
 
+val tapmobImplementation by configurations
+
 dependencies {
+    implementation(libs.appcompat)
+
     implementation(project(":admediation-core"))
     implementation(project(":admediation-tapsell"))
-    implementation(project(":admediation-admob"))
-    implementation(libs.appcompat)
+    // only tapmob version has admob dependency
+    tapmobImplementation(project(":admediation-admob"))
 }

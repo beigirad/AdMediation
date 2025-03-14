@@ -1,5 +1,6 @@
 package ir.beigirad.admediation.example
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.text.method.ScrollingMovementMethod
@@ -14,6 +15,8 @@ import ir.beigirad.admediation.example.databinding.ActivityMainBinding
 abstract class MainScreenBinder(context: Context) {
     private val binding = ActivityMainBinding.inflate(LayoutInflater.from(context))
         .apply {
+            (context as Activity).setTitle(context.getString(R.string.app_name) + " [${BuildConfig.FLAVOR}]")
+
             tvLog.movementMethod = ScrollingMovementMethod()
             btnInitializer.setOnClickListener { onInitializeClick() }
             btnRequester.setOnClickListener { onRequestAdClick() }
