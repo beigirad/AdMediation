@@ -40,10 +40,14 @@ object AdMediation {
     fun initialize(context: Context) {
         Logger.i("start initializing")
         runBlocking {
-            val adNetworks = apiService.getAdNetworks().also { Logger.d("adNetworks: $it") }
+            val adNetworks = apiService.getAdNetworks()
 
-            if (adNetworks is Either.Failure) return@runBlocking
+            if (adNetworks is Either.Failure) {
+                Logger.i("fetching ad-networks failed! $adNetworks")
+                return@runBlocking
+            }
             adNetworks as Either.Success
+            Logger.i("received ad-networks: ${adNetworks.data}")
 
             Logger.i(
                 adapterFactories.joinToString(
@@ -73,9 +77,14 @@ object AdMediation {
     fun requestAd(context: Context) {
         Logger.i("request for new ad")
         runBlocking {
-            val waterfall = apiService.getWaterfall().also { Logger.d("received waterfall: $it") }
-            if (waterfall is Either.Failure) return@runBlocking
+            val waterfall = apiService.getWaterfall()
+            if (waterfall is Either.Failure) {
+                Logger.d("receiving waterfall has issue: ${waterfall.error}")
+                return@runBlocking
+            }
             waterfall as Either.Success
+            Logger.d("received waterfall: ${waterfall.data}")
+
             waterfall.data.mapNotNull { drop ->
                 val slug = drop.name.lowercase()
                 val adapter = cachedAdapters[slug]
