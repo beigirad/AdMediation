@@ -14,7 +14,6 @@ class AdMobAdapterFactory : AdMediationAdapter.Factory {
 
     override fun create(adNetwork: AdNetwork): AdMediationAdapter? =
         runCatching {
-            // TODO avoid using reflection in future
             val clazz = Class.forName(adapterClass)
             val constructor = clazz.getDeclaredConstructor()
             constructor.newInstance() as AdMediationAdapter

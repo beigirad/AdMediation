@@ -18,7 +18,6 @@ import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-// FIXME: this class is calling by reflection and must be keep by proguard-rules
 class AdmobAdapter : AdMediationAdapter {
     override suspend fun initialize(context: Context) {
         withContext(Dispatchers.Default) {

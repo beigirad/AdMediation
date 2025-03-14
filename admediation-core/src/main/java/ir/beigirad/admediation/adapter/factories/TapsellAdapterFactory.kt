@@ -7,7 +7,6 @@ import ir.beigirad.admediation.model.AdNetwork
 class TapsellAdapterFactory : AdMediationAdapter.Factory {
     override val slug: String = "tapsell"
 
-    // TODO avoid using reflection in future
     private val adapterClass = "ir.beigirad.admediation.tapsell.TapsellAdapter"
 
     override fun isAvailable(): Boolean =

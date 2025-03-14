@@ -14,7 +14,6 @@ import ir.tapsell.sdk.TapsellShowOptions
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-// FIXME: this class is calling by reflection and must be keep by proguard-rules
 class TapsellAdapter(private val config: AdMediationAdapter.Config) : AdMediationAdapter {
     override suspend fun initialize(context: Context) {
         val tapselKey = requireNotNull(config.data["tapsell_key"]) { "not found \"tapsell_key\"" }
