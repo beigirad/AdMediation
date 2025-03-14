@@ -21,6 +21,12 @@ jobs:
     - name: Run tests and make iggregated report
       run: ./gradlew koverHtmlReport
 
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-report
+        path: build/reports/kover/html/*
+
     - name: Build with Gradle
       run: ./gradlew assembleRelease
 
