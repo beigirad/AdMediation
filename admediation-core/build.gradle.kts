@@ -31,4 +31,9 @@ dependencies {
     implementation(libs.ktorNegotiation)
     implementation(libs.ktorKotlinxSerialization)
     implementation(libs.koin)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kotest)
+    testImplementation(libs.koinTest)
+    testImplementation(libs.mockK)
 }

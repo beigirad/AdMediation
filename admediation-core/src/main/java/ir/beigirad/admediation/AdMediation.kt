@@ -3,6 +3,8 @@ package ir.beigirad.admediation
 import android.content.Context
 import ir.beigirad.admediation.adapter.AdMediationAdapter
 import ir.beigirad.admediation.adapter.wrappersModule
+import ir.beigirad.admediation.cache.AdPool
+import ir.beigirad.admediation.cache.cacheModule
 import ir.beigirad.admediation.logger.ILogger
 import ir.beigirad.admediation.logger.Logger
 import ir.beigirad.admediation.model.Either
@@ -18,7 +20,8 @@ object AdMediation {
         koinApplication {
             modules(
                 networkModule,
-                wrappersModule
+                wrappersModule,
+                cacheModule,
             )
         }.koin
     }
@@ -26,6 +29,7 @@ object AdMediation {
     private val apiService by koinApp.inject<ApiService>()
     private val adapterFactories by koinApp.inject<Set<AdMediationAdapter.Factory>>()
     private val cachedAdapters = mutableMapOf<String, AdMediationAdapter>()
+    private val adPool by koinApp.inject<AdPool>()
 
     @JvmStatic
     fun configure(logger: ILogger) {
@@ -81,6 +85,9 @@ object AdMediation {
                     Logger.d("$slug requesting for new ad...")
                     val requestAdResult = adapter.requestAd(context, drop.zoneId)
                     Logger.i("$slug received new ad result: $requestAdResult")
+                    if (requestAdResult is Either.Success) {
+                        adPool.putNewAd(requestAdResult.data)
+                    }
                 }
             }.awaitAll()
         }
