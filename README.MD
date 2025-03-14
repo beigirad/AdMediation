@@ -7,29 +7,58 @@ dynamically based on configurations fetched from a server.
 
 - `admediation-core`
     - Contains the core classes and serves as the SDK initializer.
-    - Handles the main logic for managing ad networks and configurations.
+  - Handles the main logic for managing ad networks and configurations.
+  - Parts:
+      - **Network**: Uses Ktor for networking, but it can be replaced with any other tools.
 
-- `admediation-cdmob`
-    - Responsible for integrating the **AdMob** dependency and providing utility functions for AdMob
+      - **Adapters**: These are plugins that can be plug by developer. Currently `admob` and
+        `tapsell` are supporting.
+
+      - **Cache**: A simple pool is used to keep unwatched ads and also manage their expiration
+        time.
+
+      - **Models**: Includes all models that is used in core module
+
+      - **Logger**: Logger object is inspired from [Timber](https://github.com/JakeWharton/timber)
+        and [Sentry](https://github.com/getsentry/sentry-java) that is pluggable and user can add
+        its own logger object and collect debugging logger.
+
+      - **DI**: An isolated context of `Koin` does service-locating/injection in this project.
+
+      - **AdMediation**: Entry point of the SDK and provide multiple method.
+
+- `admediation-admob`
+    - Responsible for integrating
+      the [AdMob](https://developers.google.com/admob/android/quick-start) dependency and providing
+      utility functions for AdMob
       integration.
     - This module has no standalone functionality and works exclusively in conjunction with
       `admediation-core`.
 
-##### Example modules:
+- `admediation-tapsell`
+    - Responsible for integrating the [Tapsell](https://docs.tapsell.ir/tapsell-sdk/android/main/)
+      dependency and providing utility functions for Tapsell integration.
+  - This module has no standalone functionality and works exclusively in conjunction with
+    `admediation-core`.
 
-- `example-admob`
-    - A java application that is demonstrating how to integrate and use the AdMediation SDK with
-      AdMob.
+- `example`
+    - A mixed java and kotlin sample that is demonstrating how to integrate and use the AdMediation
+      SDK.
+        * MainActivity.java (default)
+      * MainKotlinActivity.kt (change via AndroidManifest)
 
-- `example-tapsel`
-    - [Work in progress]
+    - Two product flavors provided:
+        - `tapsell` (Tapsell integration)
+        - `tapmob`  (Tapsell integration + Admob integration)
+
+![screenshot](art/screenshot.png)
 
 ### Roadmap
 
-- [ ] Support AdMob
-- [ ] Support Tapsel SDK
-- [ ] Writing unit tests
-- [ ] Compatible with Java projects
+- [X] Support AdMob
+- [X] Support Tapsel SDK
+- [X] Writing unit tests **(WIP)**
+- [X] Compatible with Java projects
 - [ ] Apply restriction in multi-thread environments
 - [ ] Remove reflections
 - [ ] ...
@@ -40,6 +69,8 @@ dynamically based on configurations fetched from a server.
   need to be identified and handled gracefully.
 - [ ] **Non Google Services** devices is not considered yet. And may cause exception or have
   unexpected behavior.
-- [ ] **Logger Organization:** The logging system requires better categorization and structure for
-  improved debugging and monitoring.
+- [ ] **SDK State Tracking:** Keep track of sequence of operations that user can do, or restrict him
+  from doing something multiple time.
+- [ ] **Proguard Rules:** May some unexpected errors occurs in minification.
 - [ ] **TODO**s and **FIXME**s
+- [ ] **Report new issues via [issues](https://github.com/beigirad/AdMediation/issues) section**
