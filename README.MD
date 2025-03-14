@@ -56,7 +56,7 @@ dynamically based on configurations fetched from a server.
 ### Roadmap
 
 - [X] Support AdMob
-- [X] Support Tapsel SDK
+- [X] Support Tapsell SDK
 - [X] Writing unit tests **(WIP)**
 - [X] Compatible with Java projects
 - [ ] Apply restriction in multi-thread environments

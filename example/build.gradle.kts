@@ -40,7 +40,7 @@ android {
 
     flavorDimensions += listOf("network")
     productFlavors {
-        create("tapsel") {
+        create("tapsell") {
             dimension = "network"
         }
         create("tapmob") {

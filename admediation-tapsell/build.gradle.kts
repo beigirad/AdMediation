@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "ir.beigirad.admediation.tapsel"
+    namespace = "ir.beigirad.admediation.tapsell"
     compileSdk = 35
 
     defaultConfig {
@@ -26,5 +26,5 @@ android {
 
 dependencies {
     implementation(project(":admediation-core"))
-    implementation(libs.tapsel)
+    implementation(libs.tapsell)
 }
