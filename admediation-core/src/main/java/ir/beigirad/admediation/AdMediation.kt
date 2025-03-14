@@ -10,12 +10,17 @@ import ir.beigirad.admediation.logger.Logger
 import ir.beigirad.admediation.model.Either
 import ir.beigirad.admediation.network.ApiService
 import ir.beigirad.admediation.network.networkModule
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import org.koin.dsl.koinApplication
+import kotlin.coroutines.EmptyCoroutineContext
 
 object AdMediation {
+    private val mediationScope = CoroutineScope(EmptyCoroutineContext + SupervisorJob())
     private val koinApp by lazy {
         koinApplication {
             modules(
@@ -37,14 +42,20 @@ object AdMediation {
     }
 
     @JvmStatic
-    fun initialize(context: Context) {
-        Logger.i("start initializing")
-        runBlocking {
+    fun initialize(
+        context: Context,
+        onComplete: () -> Unit,
+        onError: (String) -> Unit,
+    ) {
+        mediationScope.launch(
+            CoroutineExceptionHandler { context, t -> onError(t.message.orEmpty()) }
+        ) {
+            Logger.i("start initializing")
             val adNetworks = apiService.getAdNetworks()
 
             if (adNetworks is Either.Failure) {
                 Logger.i("fetching ad-networks failed! $adNetworks")
-                return@runBlocking
+                return@launch
             }
             adNetworks as Either.Success
             Logger.i("received ad-networks: ${adNetworks.data}")
@@ -56,6 +67,7 @@ object AdMediation {
                     transform = AdMediationAdapter.Factory::slug
                 )
             )
+
             adNetworks.data.mapNotNull { adNetwork ->
                 val factory =
                     adapterFactories.find { adNetwork.name.equals(it.slug, ignoreCase = true) }
@@ -70,17 +82,24 @@ object AdMediation {
                     cachedAdapters.put(factory.slug, adapter)
                 }
             }.awaitAll()
+            onComplete()
         }
     }
 
     @JvmStatic
-    fun requestAd(context: Context) {
-        Logger.i("request for new ad")
-        runBlocking {
+    fun requestAd(
+        context: Context,
+        onComplete: () -> Unit,
+        onError: (String) -> Unit,
+    ) {
+        mediationScope.launch(
+            CoroutineExceptionHandler { context, t -> onError(t.message.orEmpty()) }
+        ) {
+            Logger.i("request for new ad")
             val waterfall = apiService.getWaterfall()
             if (waterfall is Either.Failure) {
                 Logger.d("receiving waterfall has issue: ${waterfall.error}")
-                return@runBlocking
+                return@launch
             }
             waterfall as Either.Success
             Logger.d("received waterfall: ${waterfall.data}")
@@ -99,27 +118,38 @@ object AdMediation {
                     }
                 }
             }.awaitAll()
+            onComplete()
         }
     }
 
     @JvmStatic
-    fun showAd(context: Context) {
+    fun showAd(
+        context: Context,
+        onComplete: () -> Unit,
+        onError: (String) -> Unit,
+    ) {
         Logger.d("start showing ad")
         val candidateAd = adPool.popAd() ?: run {
             Logger.d("there is no prepared ad")
             return
         }
 
-        runBlocking {
+        mediationScope.launch(
+            CoroutineExceptionHandler { context, t -> onError(t.message.orEmpty()) }
+        ) {
             val showResult = cachedAdapters[candidateAd.slug]
-                ?.showAd(context, candidateAd) ?: return@runBlocking
+                ?.showAd(context, candidateAd) ?: return@launch
 
             when (showResult) {
-                is Either.Failure ->
+                is Either.Failure -> {
                     Logger.i("showing ad by ${candidateAd.slug} has issue. ${showResult.error}")
+                    onError(showResult.error)
+                }
 
-                is Either.Success ->
+                is Either.Success -> {
                     Logger.i("an ad by ${candidateAd.slug} has shown.")
+                    onComplete()
+                }
             }
         }
     }

@@ -58,17 +58,19 @@ class AdmobAdapter : AdMediationAdapter {
 
     override suspend fun showAd(context: Context, ad: Ad): Either<Unit> {
         check(ad is AdmobAdWrapper) { "incompatible ad passed to admob adapter. $ad" }
-        return suspendCoroutine<Either<Unit>> { continuation ->
-            with(ad.actualAd) {
-                fullScreenContentCallback = object : FullScreenContentCallback() {
-                    override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                        Logger.d("full-screen ad failed. $error")
-                        continuation.resume(Either.Failure(error.message))
+        return withContext(Dispatchers.Main) {
+            suspendCoroutine<Either<Unit>> { continuation ->
+                with(ad.actualAd) {
+                    fullScreenContentCallback = object : FullScreenContentCallback() {
+                        override fun onAdFailedToShowFullScreenContent(error: AdError) {
+                            Logger.d("full-screen ad failed. $error")
+                            continuation.resume(Either.Failure(error.message))
+                        }
                     }
-                }
-                Logger.d("start showing ad by admob")
-                show(context as Activity) {
-                    continuation.resume(Either.Success(Unit))
+                    Logger.d("start showing ad by admob")
+                    show(context as Activity) {
+                        continuation.resume(Either.Success(Unit))
+                    }
                 }
             }
         }

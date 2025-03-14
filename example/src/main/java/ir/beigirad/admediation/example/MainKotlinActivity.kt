@@ -3,11 +3,8 @@ package ir.beigirad.admediation.example
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import ir.beigirad.admediation.AdMediation
 import ir.beigirad.admediation.logger.ILogger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class MainKotlinActivity : AppCompatActivity() {
@@ -16,32 +13,38 @@ class MainKotlinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binder = object : MainScreenBinder(this) {
             override fun onInitializeClick() {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    AdMediation.initialize(this@MainKotlinActivity)
-                }
+                AdMediation.initialize(
+                    context = this@MainKotlinActivity,
+                    onComplete = { addSpecialLog("Initialization", "Done") },
+                    onError = { addSpecialLog("Initialization", "Error: $it") }
+                )
             }
 
             override fun onRequestAdClick() {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    AdMediation.requestAd(this@MainKotlinActivity)
-                }
+                AdMediation.requestAd(
+                    context = this@MainKotlinActivity,
+                    onComplete = { addSpecialLog("Requesting", "Done") },
+                    onError = { addSpecialLog("Requesting", "Error: $it") }
+                )
             }
 
             override fun onShowAdClick() {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    AdMediation.showAd(this@MainKotlinActivity)
-                }
+                AdMediation.showAd(
+                    context = this@MainKotlinActivity,
+                    onComplete = { addSpecialLog("Showing", "Done") },
+                    onError = { addSpecialLog("Showing", "Error: $it") }
+                )
             }
         }
         setContentView(binder.rootView)
 
         AdMediation.configure(object : ILogger {
             override fun i(message: String) {
-                binder.addToLog("I", message)
+                binder.addLog("I", message)
             }
 
             override fun d(message: String) {
-                binder.addToLog("D", message)
+                binder.addLog("D", message)
             }
         })
     }

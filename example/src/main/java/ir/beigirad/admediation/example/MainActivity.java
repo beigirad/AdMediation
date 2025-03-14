@@ -17,17 +17,44 @@ public class MainActivity extends AppCompatActivity {
         MainScreenBinder binder = new MainScreenBinder(this) {
             @Override
             public void onInitializeClick() {
-                AdMediation.initialize(MainActivity.this);
+                AdMediation.initialize(
+                        MainActivity.this,
+                        () -> {
+                            addSpecialLog("Initialization", "Done");
+                            return kotlin.Unit.INSTANCE;
+                        },
+                        message -> {
+                            addSpecialLog("Initialization", "Error: " + message);
+                            return kotlin.Unit.INSTANCE;
+                        });
             }
 
             @Override
             public void onRequestAdClick() {
-                AdMediation.requestAd(MainActivity.this);
+                AdMediation.requestAd(
+                        MainActivity.this,
+                        () -> {
+                            addSpecialLog("Requesting", "Done");
+                            return kotlin.Unit.INSTANCE;
+                        }, message -> {
+                            addSpecialLog("Requesting", "Error: " + message);
+                            return kotlin.Unit.INSTANCE;
+                        });
             }
 
             @Override
             public void onShowAdClick() {
-                AdMediation.showAd(MainActivity.this);
+                AdMediation.showAd(
+                        MainActivity.this,
+                        () -> {
+                            addSpecialLog("Showing", "Done");
+                            return kotlin.Unit.INSTANCE;
+                        },
+                        message -> {
+                            addSpecialLog("Showing", "Error: " + message);
+                            return kotlin.Unit.INSTANCE;
+                        }
+                );
             }
         };
         setContentView(binder.getRootView());
@@ -35,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
         AdMediation.configure(new ILogger() {
             @Override
             public void i(@NonNull String message) {
-                binder.addToLog("I", message);
+                binder.addLog("I", message);
             }
 
             @Override
             public void d(@NonNull String message) {
-                binder.addToLog("D", message);
+                binder.addLog("D", message);
             }
         });
     }
