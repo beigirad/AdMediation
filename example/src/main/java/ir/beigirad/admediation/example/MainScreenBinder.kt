@@ -1,4 +1,4 @@
-package ir.beigirad.admediation
+package ir.beigirad.admediation.example
 
 import android.content.Context
 import android.graphics.Color

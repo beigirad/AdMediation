@@ -1,9 +1,10 @@
-package ir.beigirad.admediation
+package ir.beigirad.admediation.example
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import ir.beigirad.admediation.AdMediation
 import ir.beigirad.admediation.logger.ILogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

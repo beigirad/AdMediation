@@ -1,4 +1,4 @@
-package ir.beigirad.admediation;
+package ir.beigirad.admediation.example;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ir.beigirad.admediation.AdMediation;
 import ir.beigirad.admediation.logger.ILogger;
 
 public class MainActivity extends AppCompatActivity {
